@@ -18,7 +18,7 @@ window = display.set_mode((win_width, win_height), NOFRAME)
 run = True
 wood = 0
 coal = 0
-day_len = 15
+day_len = 300
 day = 1
 darkness_damage = 0.5
 start_time = time.get_ticks()
@@ -165,7 +165,7 @@ class Fire(Sprite):
         self.cracks.append(Sprite(crack_img, self.rect.x, self.rect.y, 48, 48))
         self.durability -= 1
         if self.durability <= 0:
-            walls.remove(self)
+            weapons.remove(self)
     def reset(self):
         if self.durability <= 0 or is_surrounded(self, darkness):
             obstacles_bot.remove(self)
@@ -207,7 +207,7 @@ class Player(Sprite):
         self.speed = 3
         self.health = health
         heroes.add(self)
-        self.part2 = Sprite('hero_top.png', 100, 100)
+        self.part2 = Sprite('hero\down\hero_down_top_0.png', 100, 100)
         self.direction = 'down'
         self.frame = 0
         self.cooldown = time.get_ticks()
@@ -440,7 +440,7 @@ for x in range(win_width):
 scheme = Sprite('obstacles/wall1.png', 0, 0, 48, 48)
 scheme.visible = False
 
-player = Player('hero_bot.png', 100, 100)
+player = Player('hero/down/hero_down_bot_0.png', 100, 100)
 axe = Particle(axe_img, 0, 0, 32, 32)
 place(player, center_x, center_y)
 dark_main = Darkness(dark_img, center_x, center_y, 32, 32)
@@ -492,13 +492,13 @@ def new_day():
     day += 1
     text = ' ДЕНЬ ' + str(day) + ' '
     nd_text = f1.render(text, 1, white, gray)
-    window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
-    window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
+    #window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
+    #window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
     place_center_img(nd_text)
     display.update()
+    #corrupt()
     corrupt()
-    corrupt()
-    time.wait(500)
+    #time.wait(500)
     s_newday.play()
     day_ui.set_text(' ДЕНЬ ' + str(day) + ' ')
     player.health += 10
@@ -595,7 +595,7 @@ while run:
     scheme.reset()
     ui.reset()
 
-    if time.get_ticks() - start_time > int(day_len)*1000:
+    if time.get_ticks() - start_time > int(day_len):
         new_day()
         start_time = time.get_ticks()
     clock.tick_busy_loop(60)
