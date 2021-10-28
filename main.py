@@ -18,7 +18,7 @@ window = display.set_mode((win_width, win_height), NOFRAME)
 run = True
 wood = 0
 coal = 0
-day_len = 300
+day_len = 15
 day = 1
 darkness_damage = 0.5
 start_time = time.get_ticks()
@@ -485,20 +485,18 @@ def death():
     time.wait(3000)
 
 def new_day():
-    global day, day_len
-    if day_len > 3:
-        day_len -= 0.5
+    global day
     mixer.music.set_volume(mixer.music.get_volume()+0.05)
     day += 1
     text = ' ДЕНЬ ' + str(day) + ' '
     nd_text = f1.render(text, 1, white, gray)
-    #window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
-    #window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
+    window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
+    window.blit(transform.scale(image.load(shadow_img), (win_width, win_height)), (0,0))
     place_center_img(nd_text)
     display.update()
-    #corrupt()
     corrupt()
-    #time.wait(500)
+    corrupt()
+    time.wait(500)
     s_newday.play()
     day_ui.set_text(' ДЕНЬ ' + str(day) + ' ')
     player.health += 10
@@ -595,7 +593,7 @@ while run:
     scheme.reset()
     ui.reset()
 
-    if time.get_ticks() - start_time > int(day_len):
+    if time.get_ticks() - start_time > int(day_len*1000):
         new_day()
         start_time = time.get_ticks()
     clock.tick_busy_loop(60)
